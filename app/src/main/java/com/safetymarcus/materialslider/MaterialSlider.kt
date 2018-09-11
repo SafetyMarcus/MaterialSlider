@@ -39,7 +39,10 @@ class MaterialSlider(context: Context?, attrs: AttributeSet?) : SeekBar(context,
 	//Used for animation purposes
 	private var progressStart = 0
 
-	//TODO change these to passed in attributes
+	/**
+	 * The number of sections to be shown.
+	 * e.g. with 3 sections, the values will be 0, 1, 2, 3
+	 */
 	private var sections = 3
 	private var increments = ArrayList<Int>().apply {
 		for (i in _min.._max step _max / sections)
@@ -63,7 +66,6 @@ class MaterialSlider(context: Context?, attrs: AttributeSet?) : SeekBar(context,
 		max = _max
 		min = _min
 
-		thumb.setColorFilter(R.color.colorPrimaryDark.getColour(context), PorterDuff.Mode.SRC_IN)
 		setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener
 		{
 			override fun onProgressChanged(seekBar: SeekBar?, value: Int, fromUser: Boolean)
@@ -84,6 +86,15 @@ class MaterialSlider(context: Context?, attrs: AttributeSet?) : SeekBar(context,
 				animateBetweenValues(progress, end, 100)
 			}
 		})
+
+		context?.obtainStyledAttributes(attrs, R.styleable.MaterialSlider)?.let {
+			val thumbColor = it.getColor(R.styleable.MaterialSlider_thumbColour, R.color.colorPrimaryDark.getColour(context))
+			thumb.setColorFilter(thumbColor, PorterDuff.Mode.SRC_IN)
+			tickBeforePaint.color = it.getColor(R.styleable.MaterialSlider_tickSelectedColour, R.color.colorAccent.getColour(context))
+			tickAfterPaint.color = it.getColor(R.styleable.MaterialSlider_tickColour, R.color.colorPrimaryDark.getColour(context))
+			sections = it.getInt(R.styleable.MaterialSlider_sections, 3)
+			it.recycle()
+		}
 	}
 
 	override fun onTouchEvent(event: MotionEvent?): Boolean

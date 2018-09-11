@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MaterialSlider">
+        <attr name="sections" format="integer"/>
+        <attr name="tickColour" format="color"/>
+        <attr name="tickSelectedColour" format="color"/>
+        <attr name="thumbColour" format="color"/>
+
+    </declare-styleable>
+</resources>
